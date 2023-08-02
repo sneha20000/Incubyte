@@ -1,79 +1,94 @@
-import numpy as np
-x,y,z=input("Enter input:").split(' ')
-Enter input:0 0 0
-d=input('Enter direction(N, S, E, W, Up, Down)').capitalize()
-Enter direction(N, S, E, W, Up, Down)n
-class Spacecraft:
+class Space:
     def __init__(self, x, y, z, direction):
-        self.position = [x, y, z]
-        self.direction = direction
+        self.x = x
+        self.y = y
+        self.z = z
+        self.d = direction
 
     def move_forward(self):
-        if self.direction == "N":
-            self.position[1] += 1
-        elif self.direction == "S":
-            self.position[1] -= 1
-        elif self.direction == "E":
-            self.position[0] += 1
-        elif self.direction == "W":
-            self.position[0] -= 1
-        elif self.direction == "Up":
-            self.position[2] += 1
-        elif self.direction == "Down":
-            self.position[2] -= 1
+        if self.d == "N":
+            self.y += 1
+        elif self.d == "S":
+            self.y -= 1
+        elif self.d == "E":
+            self.x += 1
+        elif self.d == "W":
+            self.x -= 1
+        elif self.d == "Up":
+            self.z += 1
+        elif self.d == "Down":
+            self.z -= 1
 
     def move_backward(self):
-        if self.direction == "N":
-            self.position[1] -= 1
-        elif self.direction == "S":
-            self.position[1] += 1
-        elif self.direction == "E":
-            self.position[0] -= 1
-        elif self.direction == "W":
-            self.position[0] += 1
-        elif self.direction == "Up":
-            self.position[2] -= 1
-        elif self.direction == "Down":
-            self.position[2] += 1
+        if self.d == "N":
+            self.y -= 1
+        elif self.d == "S":
+            self.y += 1
+        elif self.d == "E":
+            self.x -= 1
+        elif self.d == "W":
+            self.x += 1
+        elif self.d == "Up":
+            self.z -= 1
+        elif self.d == "Down":
+            self.z += 1
 
     def turn_left(self):
-        if self.direction == "N":
-            self.direction = "W"
-        elif self.direction == "W":
-            self.direction = "S"
-        elif self.direction == "S":
-            self.direction = "E"
-        elif self.direction == "E":
-            self.direction = "N"
+        if self.d == "N":
+            self.d = "W"
+        elif self.d == "S":
+            self.d = "E"
+        elif self.d == "E":
+            self.d = "N"
+        elif self.d == "W":
+            self.d = "S"
 
     def turn_right(self):
-        if self.direction == "N":
-            self.direction = "E"
-        elif self.direction == "E":
-            self.direction = "S"
-        elif self.direction == "S":
-            self.direction = "W"
-        elif self.direction == "W":
-            self.direction = "N"
+        if self.d == "N":
+            self.d = "E"
+        elif self.d == "S":
+            self.d = "W"
+        elif self.d == "E":
+            self.d = "S"
+        elif self.d == "W":
+            self.d = "N"
 
     def turn_up(self):
-        if self.direction == "N":
-            raise ValueError("Invalid direction for turning up")
-        elif self.direction == "S":
-            raise ValueError("Invalid direction for turning up")
-        elif self.direction in ("Up", "Down"):
-            # The spacecraft cannot turn up/down if it is already facing up/down
-            pass
-        else:
-            self.direction = "Up"
+        if self.d in ["N", "S", "E", "W"]:
+            self.d = "Up"
 
     def turn_down(self):
-        if self.direction == "N":
-            raise ValueError("Invalid direction for turning down")
-        elif self.direction == "S":
-            raise ValueError("Invalid direction for turning down")
-        elif self.direction in ("Up", "Down"):
-            # The spacecraft cannot turn up/down if it is already facing up/down
-            pass
-        else:
-            self.direction = "Down"
+        if self.d in ["N", "S", "E", "W"]:
+            self.d = "Down"
+
+    def execute(self, commands):
+        for command in commands:
+            if command == "f":
+                self.move_forward()
+            elif command == "b":
+                self.move_backward()
+            elif command == "l":
+                self.turn_left()
+            elif command == "r":
+                self.turn_right()
+            elif command == "u":
+                self.turn_up()
+            elif command == "d":
+                self.turn_down()
+
+        return self.x, self.y, self.z, self.d
+
+
+commands = list(input().split(' '))
+x,y,z=map(int,input("Enter input:").split(' '))
+d=input('Enter direction(N, S, E, W, Up, Down)').capitalize()
+start_pos = (x,y,z)
+init = d
+
+final = Space(*start_pos, init)
+final_pos = final.execute(commands)
+
+
+final_x, final_y, final_z, final_direction = final_pos
+print("Final Position:", (final_x, final_y, final_z))
+print("Final Direction:", final_direction)
