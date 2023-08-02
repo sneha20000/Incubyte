@@ -1,0 +1,79 @@
+import numpy as np
+x,y,z=input("Enter input:").split(' ')
+Enter input:0 0 0
+d=input('Enter direction(N, S, E, W, Up, Down)').capitalize()
+Enter direction(N, S, E, W, Up, Down)n
+class Spacecraft:
+    def __init__(self, x, y, z, direction):
+        self.position = [x, y, z]
+        self.direction = direction
+
+    def move_forward(self):
+        if self.direction == "N":
+            self.position[1] += 1
+        elif self.direction == "S":
+            self.position[1] -= 1
+        elif self.direction == "E":
+            self.position[0] += 1
+        elif self.direction == "W":
+            self.position[0] -= 1
+        elif self.direction == "Up":
+            self.position[2] += 1
+        elif self.direction == "Down":
+            self.position[2] -= 1
+
+    def move_backward(self):
+        if self.direction == "N":
+            self.position[1] -= 1
+        elif self.direction == "S":
+            self.position[1] += 1
+        elif self.direction == "E":
+            self.position[0] -= 1
+        elif self.direction == "W":
+            self.position[0] += 1
+        elif self.direction == "Up":
+            self.position[2] -= 1
+        elif self.direction == "Down":
+            self.position[2] += 1
+
+    def turn_left(self):
+        if self.direction == "N":
+            self.direction = "W"
+        elif self.direction == "W":
+            self.direction = "S"
+        elif self.direction == "S":
+            self.direction = "E"
+        elif self.direction == "E":
+            self.direction = "N"
+
+    def turn_right(self):
+        if self.direction == "N":
+            self.direction = "E"
+        elif self.direction == "E":
+            self.direction = "S"
+        elif self.direction == "S":
+            self.direction = "W"
+        elif self.direction == "W":
+            self.direction = "N"
+
+    def turn_up(self):
+        if self.direction == "N":
+            raise ValueError("Invalid direction for turning up")
+        elif self.direction == "S":
+            raise ValueError("Invalid direction for turning up")
+        elif self.direction in ("Up", "Down"):
+            # The spacecraft cannot turn up/down if it is already facing up/down
+            pass
+        else:
+            self.direction = "Up"
+
+    def turn_down(self):
+        if self.direction == "N":
+            raise ValueError("Invalid direction for turning down")
+        elif self.direction == "S":
+            raise ValueError("Invalid direction for turning down")
+        elif self.direction in ("Up", "Down"):
+            # The spacecraft cannot turn up/down if it is already facing up/down
+            pass
+        else:
+            self.direction = "Down"
